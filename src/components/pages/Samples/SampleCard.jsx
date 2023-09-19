@@ -7,9 +7,9 @@ const CreateCard = (props) => {
                         <p>{props.date}</p>
                     </div>
                     <div className="button-group-container">
-                        <a href="/share-sample/#" className="bright-button">Share</a>
-                        <a href="/share-sample/#" className="bright-button">Preview</a>
-                        <a href="/edit-sample/#" className="bright-button">Edit</a>
+                        <a href="/share-sample" className="bright-button">Share</a>
+                        <a href="/share-sample" className="bright-button">Preview</a>
+                        <a href="/edit-sample" className="bright-button">Edit</a>
                     </div>
                 </div>
             </section>
