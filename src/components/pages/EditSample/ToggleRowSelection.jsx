@@ -1,7 +1,5 @@
  
 const ToggleRowSelection = (props) => {
- 
-
     return (
         <div className="toggle-row-container">
             <div className="row-label">
@@ -10,28 +8,22 @@ const ToggleRowSelection = (props) => {
 
             <div className="sequence-row-container">
                 {   
-                    (props.radio)? (
-                        props.titles.map((text, index) => {
-                            return(
-                                <button 
-                                key={index}
-                                className={"toggle" + ((index === props.index)? "-selected" : "")}
-                                onClick={() => {props.callback(index)}}>
+                    props.radio? (
+                        props.titles.map((text, index) => 
+                            <button 
+                            key={index}
+                            className={"toggle" + ((index === props.index)? "-selected" : "")}
+                            onClick={() => {props.callback(index)}}>
                                 {text}
-                                </button>
-                            );
-                        })
+                            </button>) 
                     ) : (
-                        props.truthMap.map((truth, index) => {
-                            return(
-                                <button 
-                                key={index}
-                                className={"toggle" + (truth? "-selected" : "")}
-                                onClick={() => {props.callback(props.title, index)}}
-                                > 
-                                </button>
-                            );
-                        }) 
+                        props.truthMap.map((truth, index) => 
+                            <button 
+                            key={index}
+                            className={"toggle" + (truth? "-selected" : "")}
+                            onClick={() => {props.callback(props.title, index)}}
+                            />
+                        ) 
                     )
     
                 }
