@@ -17,7 +17,7 @@
   :root {
     --bgColor: #080808;
     --fgColor: #f0f0f0;
-    --fgColorLighter: rgb(166, 166, 166);
+    --fgColorLighter: rgb(127, 127, 127);
     --headerTextColor: var(--fgColor);
   }
 }
@@ -138,7 +138,7 @@ h3 {
 
 .create-card {
   justify-content: center;
-  border: none !important;
+  border-color: var(--fgColorLighter);
   width: 100%;
   margin-bottom: 2rem;
 }

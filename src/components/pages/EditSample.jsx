@@ -6,6 +6,7 @@ const EditSample = () =>{
                 <form className="card edit-card">
                     <input type="text"></input>
                     <div className="button-group-container">
+                            <button type="button" className="bright-button">Preview</button>
                             <button type="button" className="bright-button">Save</button>
                     </div>
                 </form>

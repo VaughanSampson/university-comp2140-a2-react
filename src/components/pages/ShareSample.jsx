@@ -10,7 +10,7 @@ const ShareSample = () =>{
                     <p>Date Created</p>
                 </div>
                 <div className="buttons">
-                    <a href="#" className="bright-button" >Preview</a>
+                    <a href="/#" className="bright-button" >Preview</a>
                 </div>
             </div>
 
