@@ -7,17 +7,17 @@
   --purpleColorLighter: #A42DE8;
   --blueColorLighter: #318AFF;
   --blueColorDarker: #2D3DE8;
-  --bgColor: #eeeeee;
+  --bgColor: #f4f4f4;
   --fgColor: #181818;
-  --fgColorLighter: rgb(29, 29, 29);
+  --fgColorLighter: rgb(61, 61, 61);
   --headerTextColor: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bgColor: #111111;
-    --fgColor: #e1e1e1;
-    --fgColorLighter: rgb(214, 214, 214);
+    --bgColor: #080808;
+    --fgColor: #f0f0f0;
+    --fgColorLighter: rgb(166, 166, 166);
     --headerTextColor: var(--fgColor);
   }
 }
@@ -138,7 +138,7 @@ h3 {
 
 .create-card {
   justify-content: center;
-  border-color: var(--fgColorLighter);
+  border: none !important;
   width: 100%;
   margin-bottom: 2rem;
 }
@@ -171,7 +171,7 @@ h3 {
 input {
   font-size: larger;
   color: var(--fgColor);
-  background-color: var(--fgColorLighter);
+  outline: solid var(--fgColorLighter);
   border-style: none;
   border-radius: 0.5rem;
   flex-grow: 1;

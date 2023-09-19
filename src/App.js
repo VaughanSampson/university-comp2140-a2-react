@@ -3,7 +3,7 @@ import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Footer from "./components/footer/Footer.jsx"
 import Header from "./components/header/Header";
 import Samples from "./components/pages/Samples";
-import EditSongSample from "./components/pages/EditSongSample";
+import EditSongSample from "./components/pages/EditSample.jsx";
 import ShareSample from "./components/pages/ShareSample";
 import './App.css';
 
