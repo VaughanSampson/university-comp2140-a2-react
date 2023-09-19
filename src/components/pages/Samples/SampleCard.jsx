@@ -1,17 +1,10 @@
-import CreateCard from "./CreateCard";
-
-const Samples = () =>{
-    return (
-        <main>
-            <h2 className="title">My Songs</h2>
-
-            <CreateCard />
-
-            <section className="sample">
+const CreateCard = (props) => {
+    return( 
+        <section className="sample">
                 <div className="card">
                     <div className="song-details">
-                        <h3>Song Name</h3>
-                        <p>Date Created</p>
+                        <h3>{props.title}</h3>
+                        <p>{props.date}</p>
                     </div>
                     <div className="button-group-container">
                         <a href="/share-sample/#" className="bright-button">Share</a>
@@ -20,11 +13,7 @@ const Samples = () =>{
                     </div>
                 </div>
             </section>
-
-            <CreateCard />
-
-        </main>
     );
 }
 
-export default Samples;
+export default CreateCard;
