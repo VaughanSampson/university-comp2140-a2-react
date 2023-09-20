@@ -9,8 +9,7 @@ const Samples = ({sampleList}) =>{
             {
                 sampleList.map((sample, index) => 
                     <SampleCard 
-                    sample={sample} 
-                    index={index}
+                    sample={sample}  
                     editOption={true}
                     shareOption={true}
                     /> 

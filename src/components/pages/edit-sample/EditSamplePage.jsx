@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import ToggleRowSelection from "./ToggleRowSelection.jsx";
 import PreviewButton from "../../preview/PreviewButton.jsx";
 import { playNote, setInstrumentWithName } from "../../../helper/music.js";
-import { instruments } from "../../../data/instruments.js"
+import { instruments } from "../../../data/instruments.js";
+import { getSample } from "../../../api/songtrax.js";
  
 const notesList = ['B', 'A', 'G', 'F', 'E', 'D', 'C'];
 const instrumentList = Object.keys(instruments);
@@ -10,38 +11,44 @@ const emptySequence = [];
 for(let i = 0; i < 16; i++)
     emptySequence.push(false);
 
-const EditSample = ({callbackOnSave, samples}) =>{
- 
+const EditSample = ({callback_save}) =>{
+     
     const [sampleTitle, setSampleTitle] = useState("New Track");
-    const [instrument, setInstrument] = useState(0);
+    const [instrument, setInstrument] = useState("");
     const [noteSequence, setNoteSequence] = useState(
         notesList.map(note =>  ({[note]: [...emptySequence]}))
     ); 
-
-    // Load pre-existing sample in if url has query parameter
+    const [id, setID] = useState(-1);
+ 
     useEffect(() => { 
+        selectInstrument(instrumentList[0]);
         const query = window.location.search;
         if(query !== null && query !== undefined && query.length > 0)
         {
             const urlParams = new URLSearchParams(query);
-            const index = urlParams.get('sample');
-            if(index >= samples.length) return;
-            const sampleSave = samples[index];
-            setSampleTitle(sampleSave.title);
-            setInstrument(sampleSave.instrument);
-            setNoteSequence(sampleSave.noteSequence);
+            const id = urlParams.get('id'); 
+            if(id !== undefined) loadFromSampleID(id);
         }
       }, []);
 
-    
-    function generateSave(){ 
-        const save = {
-            "title": sampleTitle,
-            "instrument": instrument,
-            "date": new Date(),
-            "noteSequence": noteSequence
+    async function loadFromSampleID(id){ 
+        const sampleData = await getSample(id);
+        if(sampleData !== undefined)
+        {
+            setSampleTitle(sampleData.name);
+            setInstrument(sampleData.type);
+            setNoteSequence(JSON.parse(sampleData.recording_data));
+            setID(sampleData.id);
         }
-        callbackOnSave(save);
+    } 
+    
+    function createSave(){ 
+        const save = {
+            "name": sampleTitle,
+            "recording_data": JSON.stringify(noteSequence),
+            "type": instrument
+        }
+        callback_save(save);
     }
 
     function selectInstrument(instrument){
@@ -61,10 +68,8 @@ const EditSample = ({callbackOnSave, samples}) =>{
             }
         }
     }
-
-    const titles = samples.find(sample => sample.title === sampleTitle);
-    const saveText = titles?  "Overwrite Save" : "Save New"; 
-    
+ 
+    const saveText = (id === -1)? "Save New" :  "Overwrite Save"; 
  
     return (
         <main> 
@@ -80,10 +85,7 @@ const EditSample = ({callbackOnSave, samples}) =>{
 
                 <div className="button-group-container">
                     <PreviewButton instrument={instrument} noteSequence={noteSequence} />
-                    <button 
-                    type="button" 
-                    className="bright-button" 
-                    onClick={() => generateSave()}>
+                    <button  type="button"  className="bright-button" onClick={() => createSave()}>
                         {saveText}
                     </button>
                 </div>

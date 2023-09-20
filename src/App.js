@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import {useState} from "react";
-
+import {useState, useEffect} from "react";
+import {uploadSample, getSamples} from "./api/songtrax.js";
 import Footer from "./components/footer/Footer.jsx"
 import Header from "./components/header/Header";
 import Samples from "./components/pages/samples/SamplesPage.jsx";
@@ -10,30 +10,39 @@ import './App.css';
 
 function App() { 
   const [samplesList, setSamplesList] = useState([]);
+
+  // Load saved samples
+  useEffect(() => {loadSamples()}, [])
+
+  async function loadSamples(){
+    const samples = await getSamples();
+    setSamplesList(samples);
+  }
   
-  function updateSamplesList(newSample){
+  async function createSample(newSample){
+    const createdSample = await uploadSample(newSample); 
+    const index = samplesList.findIndex(sample => sample.id === createdSample.id);
     const alteredSamplesList = samplesList;
-    const index = samplesList.findIndex(sample => sample.title === newSample.title);
     if (index >= 0)
     {
-      alteredSamplesList[index] = newSample;
+      alteredSamplesList[index] = createdSample;
     }
     else
     {
-      alteredSamplesList.push(newSample); 
+      alteredSamplesList.push(createdSample); 
     }
     setSamplesList([...alteredSamplesList]); 
   }
 
   return (
-    <> 
-    <p>{samplesList.length}</p>
+    <>  
       <Router>
         <Header />
           <Routes>
             <Route path="/" element={<Samples sampleList={samplesList}/>} />
-            <Route path="/edit-sample" element={<EditSongSample samples={samplesList} callbackOnSave={updateSamplesList}/>} />
-            <Route path="/share-sample" element={<ShareSample samples={samplesList}/>} />
+            <Route path="/edit-sample" 
+            element={<EditSongSample samples={samplesList} callback_save={createSample}/>} />
+            <Route path="/share-sample" element={<ShareSample/>} />
           </Routes>
         <Footer />
       </Router>
