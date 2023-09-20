@@ -1,10 +1,11 @@
+import {Link} from 'react-router-dom';
 
 const Header = () => {
     return (
         <header className="page-header">
             <div className="header-logo">
                 <h2>
-                    <a href="/" className="header-icon-link">SongTrax</a>
+                    <Link to="/" className="header-icon-link">SongTrax</Link>
                 </h2>
             </div>
             <div class="header-app-description">

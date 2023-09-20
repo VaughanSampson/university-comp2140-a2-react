@@ -1,13 +1,23 @@
 import CreateCard from "./CreateCard";
 import SampleCard from "./SampleCard";
 
-const Samples = () =>{
+const Samples = ({sampleList}) =>{
     return (
         <main>
             <h2 className="title">My Songs</h2> 
             <CreateCard /> 
-            <SampleCard title={"Song1"} date={"1/1/1"}/> 
-            <CreateCard /> 
+            {
+                sampleList.map((sample, index) => 
+                    <SampleCard 
+                    sample={sample} 
+                    index={index}
+                    editOption={true}
+                    shareOption={true}
+                    /> 
+                )
+            }
+            {sampleList.length > 0 && <CreateCard />}
+            
         </main>
     );
 }

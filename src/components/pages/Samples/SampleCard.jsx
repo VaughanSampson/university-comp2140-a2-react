@@ -1,15 +1,18 @@
-const CreateCard = (props) => {
+import {Link} from 'react-router-dom';
+import PreviewButton from "../../preview/PreviewButton.jsx"
+
+const CreateCard = ({index, sample, editOption, shareOption}) => {
     return( 
         <section className="sample">
                 <div className="card">
                     <div className="song-details">
-                        <h3>{props.title}</h3>
-                        <p>{props.date}</p>
+                        <h3>{sample.title}</h3>
+                        <p>{sample.date.toDateString()}</p> 
                     </div>
                     <div className="button-group-container">
-                        <a href="/share-sample" className="bright-button">Share</a>
-                        <a href="/share-sample" className="bright-button">Preview</a>
-                        <a href="/edit-sample" className="bright-button">Edit</a>
+                        {shareOption && <Link to={`/share-sample?sample=${index}`} className="bright-button">Share</Link>}
+                        <PreviewButton noteSequence={sample.noteSequence}></PreviewButton>
+                        {editOption && <Link to={`/edit-sample?sample=${index}`} className="bright-button">Edit</Link>}
                     </div>
                 </div>
             </section>

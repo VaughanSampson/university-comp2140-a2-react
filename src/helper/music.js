@@ -1,25 +1,14 @@
 import {Transport, Part, now, start}  from "tone";
-import {guitar, piano, cello, harmonium} from "../data/instruments.js"
+import {getInstrumentFromString} from "../data/instruments.js"
 
-var selectedIntrument = guitar;
+var selectedIntrument = getInstrumentFromString();
 
 export function setInstrument(instrumentName){
-    switch(instrumentName){
-        case "guitar":
-            selectedIntrument = guitar;
-            break;
-        case "piano":
-            selectedIntrument = piano;
-            break;
-        case "cello":
-            selectedIntrument = cello;
-            break;
-        case "harmonium":
-            selectedIntrument = harmonium;
-            break;
-        default:
-            selectedIntrument = guitar;
-    }
+    selectedIntrument = getInstrumentFromString(instrumentName);
+}
+
+export function playNote(note){
+    selectedIntrument.triggerAttackRelease(note+"3", "8n", now()); 
 }
 
 export const toneTransport = Transport;
@@ -27,10 +16,6 @@ export const toneTransport = Transport;
 export var tonePart = new Part((time, note) => {
     selectedIntrument.triggerAttackRelease(note, "8n", time);
 }, []).start(0);
-
-export function playNote(note, delay = 0){
-    selectedIntrument.triggerAttackRelease(note+"3", "8n", now() + delay); 
-}
 
 export function playSequence(noteSequence, onEndCallback = null){
     tonePart.clear();
@@ -41,7 +26,6 @@ export function playSequence(noteSequence, onEndCallback = null){
         element[note].forEach((element, index) => {
             if(element) tonePart.add(index/4, note+"3");
         });
-
     });
 
     start();

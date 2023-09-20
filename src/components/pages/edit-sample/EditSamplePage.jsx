@@ -1,30 +1,52 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ToggleRowSelection from "./ToggleRowSelection.jsx";
 import PreviewButton from "../../preview/PreviewButton.jsx";
 import { playNote, setInstrument } from "../../../helper/music.js";
+import { instruments } from "../../../data/instruments.js"
  
-
 const notesList = ['B', 'A', 'G', 'F', 'E', 'D', 'C'];
-const instrumentList = ["guitar", "piano", "cello", "harmonium"];
+const instrumentList = Object.keys(instruments);
 const emptySequence = [];
 for(let i = 0; i < 16; i++)
     emptySequence.push(false);
 
-const EditSample = () =>{
+const EditSample = ({callbackOnSave, samples}) =>{
  
-    const [typeIndex, setTypeIndex] = useState(2);
+    const [sampleTitle, setSampleTitle] = useState("New Track");
+    const [instrumentIndex, setInstrumentIndex] = useState(0);
     const [noteSequence, setNoteSequence] = useState(
-        [
-            {"B": [...emptySequence]}, {"A": [...emptySequence]},
-            {"G": [...emptySequence]}, {"F": [...emptySequence]},
-            {"E": [...emptySequence]}, {"D": [...emptySequence]},
-            {"C": [...emptySequence]}
-        ]
+        notesList.map(note =>  ({[note]: [...emptySequence]}))
     ); 
+
+    // Load pre-existing sample in if url has query parameter
+    useEffect(() => { 
+        const query = window.location.search;
+        if(query !== null && query !== undefined && query.length > 0)
+        {
+            const urlParams = new URLSearchParams(query);
+            const index = urlParams.get('sample');
+            if(index >= samples.length) return;
+            const sampleSave = samples[index];
+            setSampleTitle(sampleSave.title);
+            setInstrumentIndex(sampleSave.instrumentIndex);
+            setNoteSequence(sampleSave.noteSequence);
+        }
+      }, []);
+
+    
+    function generateSave(){ 
+        const save = {
+            "title": sampleTitle,
+            "instrumentIndex": instrumentIndex,
+            "date": new Date(),
+            "noteSequence": noteSequence
+        }
+        callbackOnSave(save);
+    }
 
     function selectInstrument(index){
         setInstrument(instrumentList[index]);
-        setTypeIndex(index); 
+        setInstrumentIndex(index); 
     } 
  
     function toggleNote(note, index){
@@ -38,34 +60,52 @@ const EditSample = () =>{
             }
         }
     }
+
+    const titles = samples.find(sample => sample.title === sampleTitle);
+    const saveText = titles?  "Overwrite Save" : "Save New"; 
+    
  
     return (
         <main> 
             <h2 className="title">Edit Sample:</h2>
             <form className="card edit-card">
-                <input type="text"></input>
+                <input 
+                type="text" 
+                name="sampleTitle" 
+                onChange={(e)=>setSampleTitle(e.target.value)} 
+                value={sampleTitle}
+                > 
+                </input>
+
                 <div className="button-group-container">
                     <PreviewButton noteSequence={noteSequence} />
-                    <button type="button" className="bright-button">Save</button>
+                    <button 
+                    type="button" 
+                    className="bright-button" 
+                    onClick={() => generateSave()}>
+                        {saveText}
+                    </button>
                 </div>
+ 
             </form>
 
             <ToggleRowSelection
             title="Type" 
             radio={true} 
-            index={typeIndex} 
+            index={instrumentIndex} 
             titles={instrumentList} 
             callback={selectInstrument}
             /> 
 
-            { notesList.map((note, index) => 
+            {       
+                notesList.map((note, index) => 
                     <ToggleRowSelection 
                     key={index}
                     title={note}
                     radio={false} 
                     truthMap={noteSequence[index][note]} 
-                    callback={toggleNote}
-                    />)
+                    callback={toggleNote}/>
+                )
             }
         </main>
     )
