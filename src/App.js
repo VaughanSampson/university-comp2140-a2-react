@@ -19,13 +19,19 @@ function App() {
     setSamplesList(samples);
   }
   
-  async function createSample(newSample){
-    if(newSample.id !== -1)
+  async function editSample(newSampleData){
+    if(newSampleData.id !== -1)
     {
-      const updatedSample = await putSample(newSample,newSample.id);  
+      const updatedSample = await putSample(newSampleData,newSampleData.id); 
+      const alteredSamplesList = samplesList;
+      alteredSamplesList.forEach(sample => {
+        if(sample.id === updatedSample.id)
+          sample = updatedSample;
+      });
+      setSamplesList([...alteredSamplesList]);  
     }
     else{
-      const createdSample = await postSample(newSample);  
+      const createdSample = await postSample(newSampleData);  
       const alteredSamplesList = samplesList;
       alteredSamplesList.push(createdSample); 
       setSamplesList([...alteredSamplesList]);  
@@ -39,7 +45,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Samples sampleList={samplesList}/>} />
             <Route path="/edit-sample" 
-            element={<EditSongSample samples={samplesList} callback_save={createSample}/>} />
+            element={<EditSongSample samples={samplesList} callback_save={editSample}/>} />
             <Route path="/share-sample" element={<ShareSample/>} />
           </Routes>
         <Footer />
