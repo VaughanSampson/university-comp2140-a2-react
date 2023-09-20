@@ -11,7 +11,7 @@ const CreateCard = ({index, sample, editOption, shareOption}) => {
                     </div>
                     <div className="button-group-container">
                         {shareOption && <Link to={`/share-sample?sample=${index}`} className="bright-button">Share</Link>}
-                        <PreviewButton noteSequence={sample.noteSequence}></PreviewButton>
+                        <PreviewButton instrument={sample.instrument} noteSequence={sample.noteSequence}></PreviewButton>
                         {editOption && <Link to={`/edit-sample?sample=${index}`} className="bright-button">Edit</Link>}
                     </div>
                 </div>

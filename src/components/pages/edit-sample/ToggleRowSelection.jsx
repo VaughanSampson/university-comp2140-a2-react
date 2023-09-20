@@ -12,8 +12,8 @@ const ToggleRowSelection = (props) => {
                         props.titles.map((text, index) => 
                             <button 
                             key={index}
-                            className={"toggle" + ((index === props.index)? "-selected" : "")}
-                            onClick={() => {props.callback(index)}}>
+                            className={"toggle" + ((text === props.selected)? "-selected" : "")}
+                            onClick={() => {props.callback(text)}}>
                                 {text}
                             </button>) 
                     ) : (

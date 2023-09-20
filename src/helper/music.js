@@ -3,7 +3,7 @@ import {getInstrumentFromString} from "../data/instruments.js"
 
 var selectedIntrument = getInstrumentFromString();
 
-export function setInstrument(instrumentName){
+export function setInstrumentWithName(instrumentName){
     selectedIntrument = getInstrumentFromString(instrumentName);
 }
 

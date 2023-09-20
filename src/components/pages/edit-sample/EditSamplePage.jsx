@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ToggleRowSelection from "./ToggleRowSelection.jsx";
 import PreviewButton from "../../preview/PreviewButton.jsx";
-import { playNote, setInstrument } from "../../../helper/music.js";
+import { playNote, setInstrumentWithName } from "../../../helper/music.js";
 import { instruments } from "../../../data/instruments.js"
  
 const notesList = ['B', 'A', 'G', 'F', 'E', 'D', 'C'];
@@ -13,7 +13,7 @@ for(let i = 0; i < 16; i++)
 const EditSample = ({callbackOnSave, samples}) =>{
  
     const [sampleTitle, setSampleTitle] = useState("New Track");
-    const [instrumentIndex, setInstrumentIndex] = useState(0);
+    const [instrument, setInstrument] = useState(0);
     const [noteSequence, setNoteSequence] = useState(
         notesList.map(note =>  ({[note]: [...emptySequence]}))
     ); 
@@ -28,7 +28,7 @@ const EditSample = ({callbackOnSave, samples}) =>{
             if(index >= samples.length) return;
             const sampleSave = samples[index];
             setSampleTitle(sampleSave.title);
-            setInstrumentIndex(sampleSave.instrumentIndex);
+            setInstrument(sampleSave.instrument);
             setNoteSequence(sampleSave.noteSequence);
         }
       }, []);
@@ -37,16 +37,16 @@ const EditSample = ({callbackOnSave, samples}) =>{
     function generateSave(){ 
         const save = {
             "title": sampleTitle,
-            "instrumentIndex": instrumentIndex,
+            "instrument": instrument,
             "date": new Date(),
             "noteSequence": noteSequence
         }
         callbackOnSave(save);
     }
 
-    function selectInstrument(index){
-        setInstrument(instrumentList[index]);
-        setInstrumentIndex(index); 
+    function selectInstrument(instrument){
+        setInstrument(instrument);
+        setInstrumentWithName(instrument); 
     } 
  
     function toggleNote(note, index){
@@ -55,7 +55,8 @@ const EditSample = ({callbackOnSave, samples}) =>{
             if(notesList[i] === note) 
             { 
                 const updatedNoteSet = noteSequence;
-                updatedNoteSet[i][notesList[i]][index] = !updatedNoteSet[i][notesList[i]][index]; 
+                updatedNoteSet[i][notesList[i]][index] 
+                = !updatedNoteSet[i][notesList[i]][index]; 
                 setNoteSequence([...updatedNoteSet]);
             }
         }
@@ -78,7 +79,7 @@ const EditSample = ({callbackOnSave, samples}) =>{
                 </input>
 
                 <div className="button-group-container">
-                    <PreviewButton noteSequence={noteSequence} />
+                    <PreviewButton instrument={instrument} noteSequence={noteSequence} />
                     <button 
                     type="button" 
                     className="bright-button" 
@@ -92,7 +93,7 @@ const EditSample = ({callbackOnSave, samples}) =>{
             <ToggleRowSelection
             title="Type" 
             radio={true} 
-            index={instrumentIndex} 
+            selected={instrument} 
             titles={instrumentList} 
             callback={selectInstrument}
             /> 
