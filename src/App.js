@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import {useState, useEffect} from "react";
-import {uploadSample, getSamples} from "./api/songtrax.js";
+import {postSample, putSample, getSamples} from "./api/songtrax.js";
 import Footer from "./components/footer/Footer.jsx"
 import Header from "./components/header/Header";
 import Samples from "./components/pages/samples/SamplesPage.jsx";
@@ -20,18 +20,16 @@ function App() {
   }
   
   async function createSample(newSample){
-    const createdSample = await uploadSample(newSample); 
-    const index = samplesList.findIndex(sample => sample.id === createdSample.id);
-    const alteredSamplesList = samplesList;
-    if (index >= 0)
+    if(newSample.id !== -1)
     {
-      alteredSamplesList[index] = createdSample;
+      const updatedSample = await putSample(newSample,newSample.id);  
     }
-    else
-    {
+    else{
+      const createdSample = await postSample(newSample);  
+      const alteredSamplesList = samplesList;
       alteredSamplesList.push(createdSample); 
+      setSamplesList([...alteredSamplesList]);  
     }
-    setSamplesList([...alteredSamplesList]); 
   }
 
   return (

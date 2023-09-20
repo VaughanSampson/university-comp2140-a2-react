@@ -21,7 +21,7 @@ const EditSample = ({callback_save}) =>{
     const [id, setID] = useState(-1);
  
     useEffect(() => { 
-        selectInstrument(instrumentList[0]);
+        selectInstrument(instrumentList[0], false);
         const query = window.location.search;
         if(query !== null && query !== undefined && query.length > 0)
         {
@@ -44,6 +44,7 @@ const EditSample = ({callback_save}) =>{
     
     function createSave(){ 
         const save = {
+            "id": id,
             "name": sampleTitle,
             "recording_data": JSON.stringify(noteSequence),
             "type": instrument
@@ -51,13 +52,16 @@ const EditSample = ({callback_save}) =>{
         callback_save(save);
     }
 
-    function selectInstrument(instrument){
+    function selectInstrument(instrument, playNoise = true){
         setInstrument(instrument);
         setInstrumentWithName(instrument); 
+        if(playNoise)
+            playNote("C");
     } 
  
-    function toggleNote(note, index){
-        playNote(note);
+    function toggleNote(note, index, playNoise = true){
+        if(playNoise)
+            playNote(note);
         for(let i = 0; i < notesList.length; i++){
             if(notesList[i] === note) 
             { 
