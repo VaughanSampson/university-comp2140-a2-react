@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import {useState, useEffect} from "react";
-import {postSample, putSample, getSamples} from "./api/songtrax.js";
+import {postSample, putSample, deleteSample, getSamples} from "./api/songtrax.js";
 import Footer from "./components/footer/Footer.jsx"
 import Header from "./components/header/Header";
 import Samples from "./components/pages/samples/SamplesPage.jsx";
@@ -11,7 +11,6 @@ import './App.css';
 function App() { 
   const [samplesList, setSamplesList] = useState([]);
 
-  // Load saved samples
   useEffect(() => {loadSamples()}, [])
 
   async function loadSamples(){
@@ -19,23 +18,20 @@ function App() {
     setSamplesList(samples);
   }
   
-  async function editSample(newSampleData){
-    if(newSampleData.id !== -1)
-    {
-      const updatedSample = await putSample(newSampleData,newSampleData.id); 
-      const alteredSamplesList = samplesList;
-      alteredSamplesList.forEach(sample => {
-        if(sample.id === updatedSample.id)
-          sample = updatedSample;
-      });
-      setSamplesList([...alteredSamplesList]);  
-    }
-    else{
-      const createdSample = await postSample(newSampleData);  
-      const alteredSamplesList = samplesList;
-      alteredSamplesList.push(createdSample); 
-      setSamplesList([...alteredSamplesList]);  
-    }
+  async function createSample(newSampleData){  
+      const createdSample = await postSample(newSampleData);   
+      loadSamples();
+      return createdSample.id;
+  }
+
+  async function overwriteSample(alteredSampleData){  
+    await putSample(alteredSampleData, alteredSampleData.id); 
+    loadSamples();
+  }
+
+  async function removeSample(id){
+    await deleteSample(id);
+    loadSamples();
   }
 
   return (
@@ -43,9 +39,13 @@ function App() {
       <Router>
         <Header />
           <Routes>
-            <Route path="/" element={<Samples sampleList={samplesList}/>} />
+            <Route path="/" element={<Samples 
+            callback_delete={removeSample}
+            sampleList={samplesList}/>} />
             <Route path="/edit-sample" 
-            element={<EditSongSample samples={samplesList} callback_save={editSample}/>} />
+            element={<EditSongSample samples={samplesList} 
+            callback_create={createSample} 
+            callback_overwrite={overwriteSample}/>} />
             <Route path="/share-sample" element={<ShareSample/>} />
           </Routes>
         <Footer />

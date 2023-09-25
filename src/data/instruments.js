@@ -1,6 +1,6 @@
 import {Sampler}  from "tone";
- 
 
+export const notesList = ['B', 'A', 'G', 'F', 'E', 'D', 'C'];
 
 export const guitar = new Sampler({
     urls: {

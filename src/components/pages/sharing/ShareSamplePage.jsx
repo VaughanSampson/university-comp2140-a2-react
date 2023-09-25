@@ -2,11 +2,12 @@ import { useEffect, useState} from "react";
 import SampleCard from "../samples/SampleCard";
 import ShareLocationTogglefrom from "./ShareLocationToggle";
 import { getSample } from "../../../api/songtrax.js";
+import { getLocations, addSampleToLocation } from "../../../api/songtrax.js"
 
-const locations = {"loc1": true, "loc2": false}
 
 const ShareSample = () =>{
     const [sample, setSample] = useState(null);
+    const [locations, setLocation] = useState(null);
 
     // Load pre-existing sample in if url has query parameter
     useEffect(() => { 
@@ -16,7 +17,8 @@ const ShareSample = () =>{
             const urlParams = new URLSearchParams(query);
             const id = urlParams.get('id'); 
             if(id !== undefined) loadFromSampleID(id);
-        }
+        } 
+        loadLocations();
       }, []);
 
     async function loadFromSampleID(id){ 
@@ -25,27 +27,42 @@ const ShareSample = () =>{
         {
             setSample(sampleData);
         }
-    } 
+    }  
+    async function loadLocations(){
+        const loc = await getLocations();
+        setLocation(loc);
+    }
 
-    function toggleLocation(index, toggle){
-        locations[Object.keys(locations)[index]] = toggle;
+    async function toggleLocation(locationID, toggle){
+        if(toggle)
+            alert(JSON.stringify( await addSampleToLocation(sample.id, locationID)));
     }
 
     return (
         <main>
             <h2 className="title">Share This Sample</h2>
             {sample != null
-                && <SampleCard sample={sample} editOption={false} shareOptions={false}/>
+                && <SampleCard sample={sample}/>
             }
             
             {
-                Object.keys(locations).map((location, index) => 
+            locations != null && 
+            locations.map((location) => 
+            <ShareLocationTogglefrom 
+            id={location.id}
+            callbackOnToggle={toggleLocation}
+            title={location.name} 
+            /> 
+            )
+                /*
+                Object.keys(locationsList).map((location, index) => 
                     <ShareLocationTogglefrom 
                     index={index}
                     callbackOnToggle={toggleLocation}
                     title={location} 
                     /> 
                 )
+                */
             }
 
         </main>

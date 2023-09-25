@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 
-export default function ShareLocationToggle({index, callbackOnToggle, title})
+export default function ShareLocationToggle({id, callbackOnToggle, title})
 {   
     const [toggle, setToggle] = useState(false);
 
     useEffect(() => {
-        callbackOnToggle(index, toggle);
-    }, [toggle, callbackOnToggle, index]);
+        callbackOnToggle(id, toggle);
+    }, [toggle, callbackOnToggle, id]);
 
     return(
         <div className="toggle-row-container">

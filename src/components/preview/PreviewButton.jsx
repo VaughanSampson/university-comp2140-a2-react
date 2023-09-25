@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { playSequence, stopSequence, setInstrumentWithName} from "../../helper/music.js";
 
-const PreviewButton = ({noteSequence, instrument}) => {
+const PreviewButton = ({recording_data, instrument}) => {
     const [playing, setPlaying] = useState(false);
 
     const setPlayingFalse = () => setPlaying(false);
@@ -10,13 +10,12 @@ const PreviewButton = ({noteSequence, instrument}) => {
         if(playing)
             stopSequence();
         else
-        {
+        { 
             setInstrumentWithName(instrument); 
-            playSequence(noteSequence, setPlayingFalse);
+            playSequence(recording_data, setPlayingFalse);
         }
         setPlaying(!playing);
     }
-
     return( 
         <button 
         type="button" 
