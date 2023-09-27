@@ -1,18 +1,6 @@
-import { useState, useEffect } from 'react';
-
-export default function ShareLocationToggle({id, toggledOn, 
-    callbackOnToggle, title})
-{   
-    const [toggled, setToggled] = useState(toggledOn);
-
-    useEffect(() => {
-        callbackOnToggle(id, toggled);
-    }, [toggled])
-
-    function toggle(value){ 
-        setToggled(value);
-    }
-
+ 
+export default function ShareLocationToggle({id, toggledOn, callbackOnToggle, title})
+{     
     return(
         <div className="toggle-row-container">
             <div className="location-name-label">
@@ -20,14 +8,14 @@ export default function ShareLocationToggle({id, toggledOn,
             </div>
             <div className="sequence-row-container"> 
                 <button 
-                onClick={() => toggle(true)} 
-                className={`toggle${toggled? "-selected" : ""}`} >
+                onClick={() => callbackOnToggle(id, true)} 
+                className={`toggle${toggledOn? "-selected" : ""}`} >
                     Shared
                 </button>
 
                 <button 
-                onClick={() => toggle(false)} 
-                className={`toggle${!toggled? "-selected" : ""}`}>
+                onClick={() => callbackOnToggle(id, false)} 
+                className={`toggle${!toggledOn? "-selected" : ""}`}>
                     Not Shared
                 </button> 
             </div>

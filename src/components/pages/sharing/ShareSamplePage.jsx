@@ -2,15 +2,16 @@ import { useEffect, useState} from "react";
 import SampleCard from "../samples/SampleCard";
 import ShareLocationTogglefrom from "./ShareLocationToggle";
 import { getSample } from "../../../api/songtrax.js";
-import { getLocations, addSampleToLocation, 
-    removeSampleFromLocation, getSamplesToLocations } from "../../../api/songtrax.js" 
+import { getLocations, getOneSampleToLocationBySampleID, deleteSampleToLocationBySampleID, 
+    updateSampleToLocationBySampleID } from "../../../api/songtrax.js" 
 
 
 const ShareSample = () =>{
     const [sample, setSample] = useState(null);
-    const [locations, setLocation] = useState(null);
+    const [locations, setLocations] = useState(null);
+    const [selectedLocation, setSelectedLocation] = useState(-1);
 
-    // Load pre-existing sample in if url has query parameter
+    // Load sample
     useEffect(() => { 
         const query = window.location.search;
         if(query !== null && query !== undefined && query.length > 0)
@@ -21,31 +22,41 @@ const ShareSample = () =>{
         } 
       }, []);
 
-      useEffect(() => { 
-        if(sample != null) loadLocations(); 
-      }, [sample]);
-
     async function loadFromSampleID(id){ 
         const sampleData = await getSample(id);
         if(sampleData !== undefined) setSample(sampleData); 
     }  
+    
+    // Load locations
+    useEffect(() => { 
+        if(sample != null) loadLocations(); 
+      }, [sample]); 
 
     async function loadLocations(){
         const locations = await getLocations();  
-        const samplesToLocations = await getSamplesToLocations();  
-        const locationsOfSample = samplesToLocations.filter(element => element.sample_id === sample.id)
-        .map(element => element.location_id); 
-        const toggledLocations = locations.map((element) =>
-        ({...element, "toggledOn" : locationsOfSample.includes(element.id) }));  
-        setLocation(await toggledLocations);
+        setLocations(locations); 
+
+        const sampleToLocation = await getOneSampleToLocationBySampleID(sample.id);
+        if(sampleToLocation != null) setSelectedLocation(sampleToLocation.location_id); 
     }
 
+    // Toggle locations
     async function toggleLocation(locationID, toggle){ 
-        if(toggle) await addSampleToLocation(sample.id, locationID); 
-        else removeSampleFromLocation(sample.id, locationID);  
+        if(!toggle && selectedLocation == locationID)
+            setSelectedLocation(-1); 
+        else
+            setSelectedLocation(locationID); 
     }
- 
 
+    useEffect(() => { 
+        if(!sample) return;  
+        if(selectedLocation === -1) 
+            deleteSampleToLocationBySampleID(sample.id)
+        else
+            updateSampleToLocationBySampleID(sample.id, selectedLocation);  
+      }, [selectedLocation]); 
+  
+    // DOM
     return (
         <main>
             <h2 className="title">Share This Sample</h2>
@@ -53,9 +64,8 @@ const ShareSample = () =>{
             {
                 locations != null && locations.map((location, index) => 
                     <ShareLocationTogglefrom 
-                    toggledOn={location.toggledOn}
-                    id={location.id}
-                    sampleToLocation={location.sampleToLocation}
+                    toggledOn={location.id == selectedLocation}
+                    id={location.id} 
                     callbackOnToggle={toggleLocation} 
                     title={location.name}
                     key={index}

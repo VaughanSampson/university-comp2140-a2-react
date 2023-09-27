@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom';
 import PreviewButton from "../../preview/PreviewButton.jsx"
 
-const CreateCard = ({sample, editOption, shareOption, callback_delete}) => {
+const CreateCard = ({sample, editOption, shareOption, shared, callback_delete}) => {
     const date = new Date(sample.datetime);
     const year = date.getFullYear();
     const day = date.getDate();
@@ -18,7 +18,9 @@ const CreateCard = ({sample, editOption, shareOption, callback_delete}) => {
                     </div>
                     <div className="button-group-container">
                         {shareOption && 
-                        <Link to={`/share-sample?id=${sample.id}`} className="bright-button">Share</Link>}
+                        <Link to={`/share-sample?id=${sample.id}`} className="bright-button">
+                            {shared? "Shared" : "Share"}
+                        </Link>}
                         <PreviewButton 
                         instrument={sample.type} 
                         recording_data={JSON.parse(sample.recording_data)}>

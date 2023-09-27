@@ -60,52 +60,42 @@ export async function getLocations(){
     const response = await fetch(url);
     const json = await response.json();
     return json;
-}
+} 
 
-export async function getSamplesToLocations(sampleID = -1){
-    // Get
+
+
+export async function getAllSampleToLocations( ){ 
     const url = `${baseURL}sampletolocation/?api_key=${APIKEY}`;
     const response = await fetch(url);
-    const json = await response.json();
+    return await response.json(); 
+}
 
-    if(sampleID === -1) return json;
-
-    json.filter(element => element.sample_id == sampleID);
+export async function getOneSampleToLocationBySampleID(sampleID){ 
+    const allSampleToLocations = await getAllSampleToLocations();   
+    const sampleToLocation = allSampleToLocations.filter(element => element.sample_id == sampleID); 
+    return sampleToLocation? sampleToLocation[0] : null; 
 }
  
-async function getSampleToLocationIDFromIDs(sampleID, locationID){
-    // Get from API
-    const url = `${baseURL}sampletolocation/?api_key=${APIKEY}`;
-    const response = await fetch(url);
-    const json = await response.json(); 
-
-    // Filter to get only the record of matching IDs
-    const filteredResponse = json.filter(element => (element.sample_id === sampleID && element.location_id === locationID))
-    .map(element => element.id); 
-    return filteredResponse[0] ?? -1;
-}
-
-export async function removeSampleFromLocation(sampleID, locationID){
-    const preexistingRelationshipID = await getSampleToLocationIDFromIDs(sampleID, locationID);
-    if(preexistingRelationshipID == -1) return null;
-
-    const url = `${baseURL}sampletolocation/${preexistingRelationshipID}/?api_key=${APIKEY}`;;
+export async function deleteSampleToLocationBySampleID(sampleID){ 
+    const sample = await getOneSampleToLocationBySampleID(sampleID);
+    if(sample === null) return;
+    const id = sample.id;
+    const url = `${baseURL}sampletolocation/${id}/?api_key=${APIKEY}`;;
     await fetch(url, {
         method: 'DELETE',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         } 
-    });
+    }); 
 } 
 
-export async function addSampleToLocation(sampleID, locationID){
-    const preexistingRelationshipID = await getSampleToLocationIDFromIDs(sampleID, locationID);
-    if(preexistingRelationshipID != -1) return null;
+export async function updateSampleToLocationBySampleID(sampleID, locationID){ 
+    const sample = await getOneSampleToLocationBySampleID(sampleID);  
 
-    const url = `${baseURL}sampletolocation/?api_key=${APIKEY}`;
+    const url = `${baseURL}sampletolocation${sample? `/${sample.id}` : ""}/?api_key=${APIKEY}`;
     const response = await fetch(url, {
-        method: 'POST',
+        method: sample? 'PUT' : 'POST',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -115,3 +105,7 @@ export async function addSampleToLocation(sampleID, locationID){
     const json = await response.json();
     return json;
 }
+ 
+
+
+ 
