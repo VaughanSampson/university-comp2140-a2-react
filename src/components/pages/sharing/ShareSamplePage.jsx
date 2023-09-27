@@ -2,7 +2,8 @@ import { useEffect, useState} from "react";
 import SampleCard from "../samples/SampleCard";
 import ShareLocationTogglefrom from "./ShareLocationToggle";
 import { getSample } from "../../../api/songtrax.js";
-import { getLocations, addSampleToLocation } from "../../../api/songtrax.js"
+import { getLocations, addSampleToLocation, 
+    removeSampleFromLocation, getSamplesToLocations } from "../../../api/songtrax.js"
 
 
 const ShareSample = () =>{
@@ -18,8 +19,11 @@ const ShareSample = () =>{
             const id = urlParams.get('id'); 
             if(id !== undefined) loadFromSampleID(id);
         } 
-        loadLocations();
       }, []);
+
+      useEffect(() => { 
+        if(sample != null) loadLocations(); 
+      }, [sample]);
 
     async function loadFromSampleID(id){ 
         const sampleData = await getSample(id);
@@ -27,15 +31,37 @@ const ShareSample = () =>{
         {
             setSample(sampleData);
         }
+        
     }  
     async function loadLocations(){
         const loc = await getLocations();
-        setLocation(loc);
+        const locationIDList = loc.map(location => location.id);
+        const samplesToLocations = await getSamplesToLocations(sample.id, locationIDList);
+        // Filter
+        const sampleLocations = samplesToLocations
+        .filter(element => element.sample_id === sample.id)
+        .map(element => element.location_id);
+
+        const toggledLocations = loc.map(element => {
+            return{
+                ...element,
+                "toggled" : sampleLocations.includes(element.id)
+            }
+        });
+        alert(toggledLocations);
+        setLocation(toggledLocations);
+
     }
 
     async function toggleLocation(locationID, toggle){
         if(toggle)
-            alert(JSON.stringify( await addSampleToLocation(sample.id, locationID)));
+        {
+            await addSampleToLocation(sample.id, locationID);
+        }
+        else
+        {
+            removeSampleFromLocation(sample.id);
+        }
     }
 
     return (
@@ -51,18 +77,10 @@ const ShareSample = () =>{
             <ShareLocationTogglefrom 
             id={location.id}
             callbackOnToggle={toggleLocation}
-            title={location.name} 
+            title={location.name}
+            toggled={location.toggled}
             /> 
             )
-                /*
-                Object.keys(locationsList).map((location, index) => 
-                    <ShareLocationTogglefrom 
-                    index={index}
-                    callbackOnToggle={toggleLocation}
-                    title={location} 
-                    /> 
-                )
-                */
             }
 
         </main>

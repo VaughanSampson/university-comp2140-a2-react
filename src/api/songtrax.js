@@ -62,6 +62,16 @@ export async function getLocations(){
     return json;
 }
 
+
+export async function getSamplesToLocations(){
+    // Get
+    const url = `${baseURL}sampletolocation/?api_key=${APIKEY}`;
+    const response = await fetch(url);
+    const json = await response.json();
+
+    return json;
+}
+
 export async function removeSampleFromLocation(id){
     const url = `${baseURL}sampletolocation/${id}/?api_key=${APIKEY}`;;
     await fetch(url, {

@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 
-export default function ShareLocationToggle({id, callbackOnToggle, title})
+export default function ShareLocationToggle({id, toggled, callbackOnToggle, title})
 {   
     const [toggle, setToggle] = useState(false);
+
+    useEffect(() => {
+        setToggle(toggled);
+    }, []);
 
     useEffect(() => {
         callbackOnToggle(id, toggle);
