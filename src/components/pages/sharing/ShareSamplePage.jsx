@@ -37,32 +37,30 @@ const ShareSample = () =>{
         const loc = await getLocations();
         const locationIDList = loc.map(location => location.id);
         const samplesToLocations = await getSamplesToLocations(sample.id, locationIDList);
+        
         // Filter
-        const sampleLocations = samplesToLocations
-        .filter(element => element.sample_id === sample.id)
-        .map(element => element.location_id);
-
         const toggledLocations = loc.map(element => {
+            const sampleToLocation = samplesToLocations
+            .filter(element => element.location_id === element.id);
+
             return{
                 ...element,
-                "toggled" : sampleLocations.includes(element.id)
+                "sampleToLocation" : sampleToLocation.length > 0? sampleToLocation[0] : null
             }
         });
-        alert(toggledLocations);
+        alert(JSON.stringify(toggledLocations));
         setLocation(toggledLocations);
 
     }
 
-    async function toggleLocation(locationID, toggle){
-        if(toggle)
-        {
-            await addSampleToLocation(sample.id, locationID);
-        }
-        else
-        {
-            removeSampleFromLocation(sample.id);
-        }
+    async function toggleLocationOn(locationID){ 
+        await addSampleToLocation(sample.id, locationID); 
     }
+
+    async function toggleLocationOff(sampleToLocationID){  
+        removeSampleFromLocation(sampleToLocationID); 
+    }
+
 
     return (
         <main>
@@ -76,9 +74,10 @@ const ShareSample = () =>{
             locations.map((location) => 
             <ShareLocationTogglefrom 
             id={location.id}
-            callbackOnToggle={toggleLocation}
+            sampleToLocation={location.sampleToLocation}
+            callbackOnToggleOn={toggleLocationOn}
+            callbackOnToggleOff={toggleLocationOff}
             title={location.name}
-            toggled={location.toggled}
             /> 
             )
             }
