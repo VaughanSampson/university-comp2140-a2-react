@@ -24,7 +24,7 @@ export function playSequence(noteSequence, onEndCallback = null){
     noteSequence.forEach((element) => { 
         const note = Object.keys(element)[0];
         element[note].forEach((element, index) => {
-            if(element) tonePart.add(index/4, note+"3");
+            if(element) tonePart.add(index/2, note+"3");
         });
     });
 
@@ -33,7 +33,7 @@ export function playSequence(noteSequence, onEndCallback = null){
     toneTransport.start();
 
     if(onEndCallback)
-    toneTransport.schedule(time => onEndCallback(), 4);
+    toneTransport.schedule(time => onEndCallback(), 8);
 }
 
 export function stopSequence(){
