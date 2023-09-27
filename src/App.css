@@ -11,6 +11,7 @@
   --fgColor: #181818;
   --fgColorLighter: rgb(61, 61, 61);
   --headerTextColor: #ffffff;
+  --iconColorInversion: 0%;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,8 +20,20 @@
     --fgColor: #f0f0f0;
     --fgColorLighter: rgb(127, 127, 127);
     --headerTextColor: var(--fgColor);
+    --iconColorInversion: 100%;
   }
 }
+
+/* Icons */ 
+.icon{
+  width: 20px;
+  margin-right: 30px;
+  -webkit-filter: invert(var(--iconColorInversion));
+}
+
+.icon:hover{ 
+  transform: scale(130%);
+} 
 
 /* Main Container and Restyle HTML Tags */
 * {
@@ -186,7 +199,7 @@ button {
 }
 
 button, 
-a:not(.header-icon-link)
+a:not(.header-icon-link):not(.invisible-hyperlink)
  {
   margin-left: 0.25rem;
   margin-right: 0.25rem;
@@ -197,7 +210,7 @@ a:not(.header-icon-link)
   font-size: medium;
 }
 
-a:not(.header-icon-link):hover,
+a:not(.header-icon-link):not(.invisible-hyperlink):hover,
 button:hover {
   background-color: var(--purpleColorLighter);
   color: var(--bgColor);

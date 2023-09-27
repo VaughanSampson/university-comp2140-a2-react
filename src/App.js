@@ -8,9 +8,8 @@ import EditSongSample from "./components/pages/edit-sample/EditSamplePage.jsx";
 import ShareSample from "./components/pages/sharing/ShareSamplePage.jsx";
 import './App.css';
 
-function App() { 
-  const [samplesList, setSamplesList] = useState([]);
-
+function App() {  
+  const [samplesList, setSamplesList] = useState([]); 
   useEffect(() => {loadSamples()}, [])
 
   async function loadSamples(){
