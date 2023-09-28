@@ -3,18 +3,17 @@ const baseURL = 'https://comp2140.uqcloud.net/api/';
 const apiKeySuffix = `?api_key=${APIKEY}`;
 const headers = {
     'Accept': 'application/json',
-    'Content-Type': 'application/json' 
-}
+    'Content-Type': 'application/json'
+};
 
 /**
  * Gets all samples with the APIKEY from the Songtrax API.
  * @returns Array of fetched JSON samples.
  */
-export async function getSamples(){
+export async function getSamples() {
     const url = `${baseURL}sample/${apiKeySuffix}`;
     const response = await fetch(url);
-    const json = await response.json();
-    return json;
+    return await response.json(); 
 }
 
 /**
@@ -22,11 +21,10 @@ export async function getSamples(){
  * @param {int} id The sample ID.
  * @returns The JSON of the selected sample.
  */
-export async function getSample(id){
+export async function getSample(id) {
     const url = `${baseURL}sample/${id}/${apiKeySuffix}`;
     const response = await fetch(url);
-    const json = await response.json();
-    return json;
+    return await response.json(); 
 }
 
 /**
@@ -34,15 +32,14 @@ export async function getSample(id){
  * @param {JSON} sample The JSON sample to post.
  * @returns The generated JSON sample with an ID and date.
  */
-export async function postSample(sample){
+export async function postSample(sample) {
     const url = `${baseURL}sample/${apiKeySuffix}`;
     const response = await fetch(url, {
         method: 'POST',
         headers: headers,
         body: JSON.stringify(sample)
     });
-    const json = await response.json(); 
-    return json;
+    return await response.json(); 
 }
 
 /**
@@ -51,15 +48,14 @@ export async function postSample(sample){
  * @param {int} id The id of the sample to update.
  * @returns The updated JSON of the sample.
  */
-export async function putSample(sample, id){
+export async function putSample(sample, id) {
     const url = `${baseURL}sample/${id}/${apiKeySuffix}`;
     const response = await fetch(url, {
         method: 'PUT',
         headers: headers,
         body: JSON.stringify(sample)
     });
-    const json = await response.json();
-    return json;
+    return await response.json(); 
 }
 
 /**
@@ -67,7 +63,7 @@ export async function putSample(sample, id){
  * sample-location relationship.
  * @param {int} id ID of sample to remove.
  */
-export async function deleteSample(id){
+export async function deleteSample(id) {
     const url = `${baseURL}sample/${id}/${apiKeySuffix}`;
     await fetch(url, {
         method: 'DELETE',
@@ -83,20 +79,20 @@ export async function deleteSample(id){
  * Gets all locations from the Songtrax API.
  * @returns Array of location JSON data.
  */
-export async function getLocations(){
+export async function getLocations() {
     const url = `${baseURL}location/${apiKeySuffix}`;
     const response = await fetch(url);
-    return await response.json(); 
-} 
- 
+    return await response.json();
+}
+
 /**
  * Gets all sample-location relationships from the Songtrax API.
  * @returns Array of sample-location relationship JSON.
  */
-export async function getAllSampleToLocations( ){ 
+export async function getAllSampleToLocations() {
     const url = `${baseURL}sampletolocation/${apiKeySuffix}`;
     const response = await fetch(url);
-    return await response.json(); 
+    return await response.json();
 }
 
 /**
@@ -106,28 +102,28 @@ export async function getAllSampleToLocations( ){
  * @returns Null if there is no relationship, otherwise the JSON
  * of the relationship.
  */
-export async function getOneSampleToLocationBySampleID(sampleID){  
-    const allSampleToLocations = await getAllSampleToLocations();    
-    const sampleToLocation = allSampleToLocations.filter(element => element.sample_id == sampleID); 
-    return sampleToLocation? sampleToLocation[0] : null; 
+export async function getOneSampleToLocationBySampleID(sampleID) {
+    const allSampleToLocations = await getAllSampleToLocations();
+    const sampleToLocation = allSampleToLocations.filter(element => element.sample_id == sampleID);
+    return sampleToLocation ? sampleToLocation[0] : null;
 }
- 
+
 /**
  * Deletes one sample-location relationship on the given sample ID by selecting
  * that relationship's id then calling a delete operation.
  * @param {int} sampleID ID of the sample which needs its relationship deleted. 
  */
-export async function deleteSampleToLocationBySampleID(sampleID){ 
+export async function deleteSampleToLocationBySampleID(sampleID) {
     const sample = await getOneSampleToLocationBySampleID(sampleID);
-    if(sample !== null) {
+    if (sample !== null) {
         const id = sample.id;
         const url = `${baseURL}sampletolocation/${id}/${apiKeySuffix}`;;
         await fetch(url, {
             method: 'DELETE',
-            headers: headers 
-        }); 
+            headers: headers
+        });
     }
-} 
+}
 
 /**
  * Update the relationship of a sample with a different location.
@@ -135,19 +131,14 @@ export async function deleteSampleToLocationBySampleID(sampleID){
  * @param {int} locationID ID of the location to write to the relationship.
  * @returns The JSON of the updated relationship.
  */
-export async function updateSampleToLocationBySampleID(sampleID, locationID){ 
-    const sample = await getOneSampleToLocationBySampleID(sampleID);  
+export async function updateSampleToLocationBySampleID(sampleID, locationID) {
+    const sample = await getOneSampleToLocationBySampleID(sampleID);
 
-    const url = `${baseURL}sampletolocation${sample? `/${sample.id}` : ""}/${apiKeySuffix}`;
+    const url = `${baseURL}sampletolocation${sample ? `/${sample.id}` : ""}/${apiKeySuffix}`;
     const response = await fetch(url, {
-        method: sample? 'PUT' : 'POST',
+        method: sample ? 'PUT' : 'POST',
         headers: headers,
-        body: JSON.stringify({sample_id: sampleID, location_id: locationID})
+        body: JSON.stringify({ sample_id: sampleID, location_id: locationID })
     });
-    const json = await response.json();
-    return json;
+    return await response.json(); 
 }
- 
-
-
- 
