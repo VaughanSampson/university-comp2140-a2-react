@@ -19,8 +19,7 @@ export default function ToggleRowSelection({ title, callback, map }) {
                         className={"toggle" + (truth ? "-selected" : "")}
                         onClick={() => { callback(title, index) }}
                     />
-                )
-                }
+                )}
             </div>
         </div>
     );

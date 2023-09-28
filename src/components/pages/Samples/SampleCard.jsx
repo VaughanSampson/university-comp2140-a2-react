@@ -1,7 +1,14 @@
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PreviewButton from "../../preview/PreviewButton.jsx"
 
-const CreateCard = ({sample, editOption, shareOption, shared, callback_delete}) => {
+/**
+ * Creates sample card to represent a sample.
+ * @param {JSON} props display values and callback function for
+ * sending input to parent.
+ * @returns Sample card React DOM.
+ */
+export default function SampleCard({ sample, editOption, shareOption, shared, callback_delete }) {
+    // Gets data for date display
     const date = new Date(sample.datetime);
     const year = date.getFullYear();
     const day = date.getDate();
@@ -9,30 +16,34 @@ const CreateCard = ({sample, editOption, shareOption, shared, callback_delete}) 
     const hours = date.getHours();
     const minutes = date.getMinutes();
 
-    return( 
+    // Returns react component
+    return (
         <section className="sample">
-                <div className="card">
-                    <div className="song-details">
-                        <h3>{sample.name}</h3>
-                        <p>{`Updated last: ${hours}:${minutes} ${day}/${month}/${year}`}</p> 
-                    </div>
-                    <div className="button-group-container">
-                        {shareOption && 
-                        <Link to={`/share-sample?id=${sample.id}`} className="bright-button">
-                            {shared? "Shared" : "Share"}
-                        </Link>}
-                        <PreviewButton 
-                        instrument={sample.type} 
-                        recording_data={JSON.parse(sample.recording_data)}>
-                        </PreviewButton>
-                        {editOption && 
-                        <Link to={`/edit-sample?id=${sample.id}`} className="bright-button">Edit</Link>}
-                        {callback_delete && 
-                        <button className="bright-button" onClick={() => (callback_delete(sample.id))}>Delete</button>}
-                    </div>
+            <div className="card">
+                <div className="song-details">
+                    <h3>{sample.name}</h3>
+                    <p>{`Updated last: ${hours}:${minutes} ${day}/${month}/${year}`}</p>
                 </div>
-            </section>
+                <div className="button-group-container">
+                    {shareOption &&
+                        <Link to={`/share-sample?id=${sample.id}`} className="bright-button">
+                            {shared ? "Shared" : "Share"}
+                        </Link>}
+
+                    <PreviewButton
+                        instrument={sample.type}
+                        recording_data={JSON.parse(sample.recording_data)}
+                    />
+
+                    {editOption && <Link to={`/edit-sample?id=${sample.id}`} className="bright-button">Edit</Link>}
+
+                    {callback_delete && <button className="bright-button"
+                        onClick={() => (callback_delete(sample.id))}>
+                        Delete
+                    </button>
+                    }
+                </div>
+            </div>
+        </section>
     );
 }
-
-export default CreateCard;

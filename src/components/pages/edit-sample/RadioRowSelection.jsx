@@ -12,17 +12,15 @@ export default function RadioRowSelection({ title, titles, callback, selected })
                 <h4>{title}</h4>
             </div> 
             <div className="sequence-row-container">
-                {
-                    titles.map((text, index) =>
-                        <button
-                            key={index}
-                            className={"toggle" + ((text === selected) ? "-selected" : "")}
-                            onClick={() => { callback(text) }}
-                        >
-                            {text}
-                        </button>
-                    )
-                }
+                {titles.map((text, index) =>
+                    <button
+                        key={index}
+                        className={"toggle" + ((text === selected) ? "-selected" : "")}
+                        onClick={() => { callback(text) }}
+                    >
+                        {text}
+                    </button>
+                )}
             </div>
         </div>
     ); 
