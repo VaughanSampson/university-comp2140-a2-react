@@ -17,12 +17,12 @@ export default function Header() {
             {
                 // Display description or arrow depending on current page.
                 (pathname === "/") ?
-                    <div className="header-app-description">
-                        <span>Create & Share Location Based Music Samples!</span>
-                    </div> :
-                    <Link to="/" className="invisible-hyperlink">
-                        <img className="icon" src={backArrowIcon}></img>
-                    </Link>
+                <div className="header-app-description">
+                    <span>Create & Share Location Based Music Samples!</span>
+                </div> :
+                <Link to="/" className="invisible-hyperlink">
+                    <img className="icon" src={backArrowIcon}></img>
+                </Link>
             }
         </header>
     );
