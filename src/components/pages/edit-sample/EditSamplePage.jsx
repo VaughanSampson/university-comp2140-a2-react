@@ -4,6 +4,7 @@ import { playNote, setInstrumentWithName } from "../../../helper/music.js";
 import { instruments, notesList } from "../../../data/instruments.js";
 import { getSample } from "../../../api/songtrax-handler.js";
 import ToggleRowSelection from "./ToggleRowSelection.jsx";
+import RadioRowSelection from "./RadioRowSelection.jsx";
 import EditSamplePageForm from "./EditSamplePageForm.jsx"
 
 // Constants
@@ -145,9 +146,8 @@ export default function EditSample({ callback_create, callback_overwrite }) {
                 callback_setTitle={setSampleTitle} />
 
             {/* Instrument radio toggle */}
-            <ToggleRowSelection
-                title="Type"
-                radio={true}
+            <RadioRowSelection
+                title="Type" 
                 selected={instrument}
                 titles={instrumentList}
                 callback={selectInstrument} />
@@ -156,9 +156,8 @@ export default function EditSample({ callback_create, callback_overwrite }) {
             {notesList.map((note, index) =>
                 <ToggleRowSelection
                     key={index}
-                    title={note}
-                    radio={false}
-                    truthMap={noteSequence[index][note]}
+                    title={note} 
+                    map={noteSequence[index][note]}
                     callback={toggleNote} />
             )}
 

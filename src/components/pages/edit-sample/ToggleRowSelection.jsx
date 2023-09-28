@@ -1,37 +1,29 @@
- 
-const ToggleRowSelection = (props) => {
+
+/**
+ * Creates a toggle row selection compoenent
+ * @param {JSON} props display data and callback function to
+ * inform parent of input. 
+ * @returns React DOM of toggle row selection.
+ */
+export default function ToggleRowSelection({ title, callback, map }) {
     return (
         <div className="toggle-row-container">
             <div className="row-label">
-                <h4>{props.title}</h4>
+                <h4>{title}</h4>
             </div>
 
             <div className="sequence-row-container">
-                {   
-                    props.radio? (
-                        props.titles.map((text, index) => 
-                            <button 
-                            key={index}
-                            className={"toggle" + ((text === props.selected)? "-selected" : "")}
-                            onClick={() => {props.callback(text)}}>
-                                {text}
-                            </button>) 
-                    ) : (
-                        props.truthMap.map((truth, index) => 
-                            <button 
-                            key={index}
-                            className={"toggle" + (truth? "-selected" : "")}
-                            onClick={() => {props.callback(props.title, index)}}
-                            />
-                        ) 
-                    )
-    
+                {map.map((truth, index) =>
+                    <button
+                        key={index}
+                        className={"toggle" + (truth ? "-selected" : "")}
+                        onClick={() => { callback(title, index) }}
+                    />
+                )
                 }
             </div>
         </div>
     );
-
 }
 
-export default ToggleRowSelection;
 
