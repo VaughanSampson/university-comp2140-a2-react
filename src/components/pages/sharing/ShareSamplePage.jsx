@@ -100,7 +100,7 @@ export default function ShareSample() {
                     <ShareLocationToggle
                         toggledOn={location.id == selectedLocation}
                         id={location.id}
-                        callbackOnToggle={toggleLocation}
+                        onToggle={toggleLocation}
                         title={location.name}
                         key={index}
                     />

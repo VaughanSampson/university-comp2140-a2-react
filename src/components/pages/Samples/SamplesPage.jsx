@@ -65,7 +65,7 @@ export default function Samples() {
                         sample={sample}
                         editOption={true}
                         shareOption={true}
-                        callback_OnDelete={deleteSampleAtID}
+                        onDelete={deleteSampleAtID}
                         shared={sharedItems.includes(sample.id)}
                         key={sample.id}
                     />)

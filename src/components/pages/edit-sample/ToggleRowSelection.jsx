@@ -5,7 +5,7 @@
  * inform parent of input. 
  * @returns React DOM of toggle row selection.
  */
-export default function ToggleRowSelection({ title, callback, map }) {
+export default function ToggleRowSelection({ title, onSelect, map }) {
     return (
         <div className="toggle-row-container">
             <div className="row-label">
@@ -17,7 +17,7 @@ export default function ToggleRowSelection({ title, callback, map }) {
                     <button
                         key={index}
                         className={"toggle" + (truth ? "-selected" : "")}
-                        onClick={() => { callback(title, index) }}
+                        onClick={() => { onSelect(title, index) }}
                     />
                 )}
             </div>

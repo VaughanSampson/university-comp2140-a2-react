@@ -9,7 +9,7 @@ import spinner from '../../../icons/spinner-solid.svg'
  * @returns React DOM of edit sample page form.
  */
 export default function EditSamplePageForm({ id, title, instrument, noteSequence,
-    callback_overwriteSave, callback_createSave, callback_setTitle }) {
+    onOverwriteSave, onCreateSave, onSetTitle }) {
 
     // State for storing whether to render loading wheel.
     const [saving, setSaving] = useState(false);
@@ -30,7 +30,7 @@ export default function EditSamplePageForm({ id, title, instrument, noteSequence
             <input
                 type="text"
                 name="sampleTitle"
-                onChange={(e) => callback_setTitle(e.target.value)}
+                onChange={(e) => onSetTitle(e.target.value)}
                 value={title}
             />
 
@@ -38,14 +38,14 @@ export default function EditSamplePageForm({ id, title, instrument, noteSequence
                 <PreviewButton instrument={instrument} recording_data={noteSequence} />
                 {(id !== -1) &&
                     <button type="button" className="bright-button" onClick={() => {
-                        callback_overwriteSave();
+                        onOverwriteSave();
                         doSavingAnimation();
                     }}>
                         Overwrite Save
                     </button>
                 }
                 <button type="button" className="bright-button" onClick={() => {
-                    callback_createSave();
+                    onCreateSave();
                     doSavingAnimation();
                 }}>
                     Save as New

@@ -72,6 +72,12 @@ p,
 a:not(.header-icon-link) {
   font-family: 'Ubuntu';
 }
+ 
+button,
+a{
+  cursor: pointer;
+}
+
 
 h2,
 h3,

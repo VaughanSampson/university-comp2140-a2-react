@@ -6,7 +6,7 @@
  * a callback function to send data to parent.
  * @returns Share location toggle React DOM.
  */
-export default function ShareLocationToggle({ id, toggledOn, callbackOnToggle, title }) {
+export default function ShareLocationToggle({ id, toggledOn, onToggle, title }) {
     return (
         <div className="toggle-row-container">
             <div className="location-name-label">
@@ -14,14 +14,14 @@ export default function ShareLocationToggle({ id, toggledOn, callbackOnToggle, t
             </div>
             <div className="sequence-row-container">
                 <button
-                    onClick={() => callbackOnToggle(id, true)}
+                    onClick={() => onToggle(id, true)}
                     className={`toggle${toggledOn ? "-selected" : ""}`} 
                 >
                     Shared
                 </button>
 
                 <button
-                    onClick={() => callbackOnToggle(id, false)}
+                    onClick={() => onToggle(id, false)}
                     className={`toggle${!toggledOn ? "-selected" : ""}`}
                 >
                     Not Shared

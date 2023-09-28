@@ -138,17 +138,21 @@ export default function EditSample() {
             <h2 className="title">Edit Sample</h2>
 
             {/* Top of the page form */}
-            <EditSamplePageForm id={id} title={sampleTitle}
-                instrument={instrument} noteSequence={noteSequence}
-                callback_overwriteSave={overwriteSave} callback_createSave={createSave}
-                callback_setTitle={setSampleTitle} />
+            <EditSamplePageForm 
+                id={id} 
+                title={sampleTitle}
+                instrument={instrument} 
+                noteSequence={noteSequence}
+                onOverwriteSave={overwriteSave} 
+                onCreateSave={createSave}
+                onSetTitle={setSampleTitle} />
 
             {/* Instrument radio toggle */}
             <RadioRowSelection
                 title="Type"
                 selected={instrument}
                 titles={instrumentList}
-                callback={selectInstrument} />
+                onSelect={selectInstrument} />
 
             {/* Notes toggle */}
             {notesList.map((note, index) =>
@@ -156,7 +160,7 @@ export default function EditSample() {
                     key={index}
                     title={note}
                     map={noteSequence[index][note]}
-                    callback={toggleNote} />
+                    onSelect={toggleNote} />
             )}
 
         </main>

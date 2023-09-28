@@ -5,7 +5,7 @@
  * inform parent of input. 
  * @returns React DOM of radio row selection.
  */
-export default function RadioRowSelection({ title, titles, callback, selected }) {
+export default function RadioRowSelection({ title, titles, onSelect, selected }) {
     return (
         <div className="toggle-row-container">
             <div className="row-label">
@@ -16,7 +16,7 @@ export default function RadioRowSelection({ title, titles, callback, selected })
                     <button
                         key={index}
                         className={"toggle" + ((text === selected) ? "-selected" : "")}
-                        onClick={() => { callback(text) }}
+                        onClick={() => { onSelect(text) }}
                     >
                         {text}
                     </button>

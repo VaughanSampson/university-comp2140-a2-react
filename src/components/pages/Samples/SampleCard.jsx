@@ -8,7 +8,7 @@ import { deleteSample } from "../../../api/songtrax-handler.js";
  * sending input to parent.
  * @returns Sample card React DOM.
  */
-export default function SampleCard({ sample, editOption, shareOption, shared, callback_OnDelete }) {
+export default function SampleCard({ sample, editOption, shareOption, shared, onDelete }) {
     // Gets data for date display
     const date = new Date(sample.datetime);
     const year = date.getFullYear();
@@ -38,8 +38,8 @@ export default function SampleCard({ sample, editOption, shareOption, shared, ca
 
                     {editOption && <Link to={`/edit-sample?id=${sample.id}`} className="bright-button">Edit</Link>}
 
-                    {callback_OnDelete && <button className="bright-button"
-                        onClick={() => { callback_OnDelete(sample.id); }}>
+                    {onDelete && <button className="bright-button"
+                        onClick={() => { onDelete(sample.id); }}>
                         Delete
                     </button>
                     }
