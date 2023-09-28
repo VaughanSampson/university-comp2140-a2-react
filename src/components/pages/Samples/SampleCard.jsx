@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import PreviewButton from "../../preview/PreviewButton.jsx"
+import { deleteSample } from "../../../api/songtrax-handler.js";
 
 /**
  * Creates sample card to represent a sample.
@@ -7,7 +8,7 @@ import PreviewButton from "../../preview/PreviewButton.jsx"
  * sending input to parent.
  * @returns Sample card React DOM.
  */
-export default function SampleCard({ sample, editOption, shareOption, shared, callback_delete }) {
+export default function SampleCard({ sample, editOption, shareOption, shared, callback_OnDelete }) {
     // Gets data for date display
     const date = new Date(sample.datetime);
     const year = date.getFullYear();
@@ -37,8 +38,8 @@ export default function SampleCard({ sample, editOption, shareOption, shared, ca
 
                     {editOption && <Link to={`/edit-sample?id=${sample.id}`} className="bright-button">Edit</Link>}
 
-                    {callback_delete && <button className="bright-button"
-                        onClick={() => (callback_delete(sample.id))}>
+                    {callback_OnDelete && <button className="bright-button"
+                        onClick={() => { callback_OnDelete(sample.id); }}>
                         Delete
                     </button>
                     }

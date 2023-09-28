@@ -1,31 +1,40 @@
 import { useState } from "react";
-import { playSequence, stopSequence, setInstrumentWithName} from "../../helper/music.js";
+import {
+    playSequence, 
+    stopSequence,
+    setInstrumentWithName
+} from "../../helper/music.js";
 
-const PreviewButton = ({recording_data, instrument}) => {
+/**
+ * Creates a preview button for playing a sample.
+ * @param {JSON} props Data of recording to play. 
+ * @returns React DOM preview button.
+ */
+export default function PreviewButton({ recording_data, instrument }) {
     const [playing, setPlaying] = useState(false);
 
-    const setPlayingFalse = () => setPlaying(false);
-
-    function togglePlaying(){
-        if(playing)
+    /**
+     * Toggle whether the preview is active or not.
+     */
+    function togglePlaying() {
+        if (playing) {
             stopSequence();
-        else
-        { 
-            setInstrumentWithName(instrument); 
-            playSequence(recording_data, setPlayingFalse);
+        }
+        else {
+            setInstrumentWithName(instrument);
+            playSequence(recording_data, () => setPlaying(false));
         }
         setPlaying(!playing);
     }
-    return( 
-        <button 
-        type="button" 
-        className="bright-button"
-        onClick={() => { togglePlaying() }}
+
+    // Return React DOM componeent.
+    return (
+        <button
+            type="button"
+            className="bright-button"
+            onClick={() => { togglePlaying() }}
         >
-            {playing? "Stop Preview" : "Preview"}
+            {playing ? "Stop Preview" : "Preview"}
         </button>
     )
-
-}
-
-export default PreviewButton;
+} 

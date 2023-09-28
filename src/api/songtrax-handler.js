@@ -114,8 +114,8 @@ export async function getOneSampleToLocationBySampleID(sampleID) {
  * @param {int} sampleID ID of the sample which needs its relationship deleted. 
  */
 export async function deleteSampleToLocationBySampleID(sampleID) {
-    const sample = await getOneSampleToLocationBySampleID(sampleID);
-    if (sample !== null) {
+    const sample = await getOneSampleToLocationBySampleID(sampleID); 
+    if (sample !== undefined) {
         const id = sample.id;
         const url = `${baseURL}sampletolocation/${id}/${apiKeySuffix}`;;
         await fetch(url, {

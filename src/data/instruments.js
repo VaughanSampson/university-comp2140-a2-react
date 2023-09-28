@@ -1,7 +1,13 @@
 import {Sampler}  from "tone";
 
+/**
+ * Defines all usable notes (C major).
+ */
 export const notesList = ['B', 'A', 'G', 'F', 'E', 'D', 'C'];
 
+/**
+ * Defines guitar instrument by samples.
+ */
 export const guitar = new Sampler({
     urls: {
         "F3": "F3.mp3",  
@@ -16,6 +22,9 @@ export const guitar = new Sampler({
     baseUrl: "samples/guitar-acoustic/"
 }).toDestination();
 
+/**
+ * Defines piano instrument by samples.
+ */
 export const piano = new Sampler({
     urls: {
         "F3": "F3.mp3",  
@@ -30,6 +39,9 @@ export const piano = new Sampler({
     baseUrl: "samples/piano/"
 }).toDestination();
 
+/**
+ * Defines cello instrument by samples.
+ */
 export const cello = new Sampler({
     urls: {
         "F3": "F3.mp3",  
@@ -44,6 +56,9 @@ export const cello = new Sampler({
     baseUrl: "samples/cello/"
 }).toDestination();
 
+/**
+ * Defines harmonium instrument by samples.
+ */
 export const harmonium = new Sampler({
     urls: {
         "F3": "F3.mp3",  
@@ -58,7 +73,9 @@ export const harmonium = new Sampler({
     baseUrl: "samples/harmonium/"
 }).toDestination();
 
-
+/**
+ * Defines drums instrument by samples.
+ */
 export const drums = new Sampler({
     urls: {
         "F3": "drums1.mp3",  
@@ -73,6 +90,9 @@ export const drums = new Sampler({
     baseUrl: "samples/drums/"
 }).toDestination();
 
+/**
+ * Defines all usable instruments by their name and object.
+ */
 export const instruments = {
     "Guitar": guitar,
     "Piano": piano,
@@ -81,6 +101,12 @@ export const instruments = {
     "Drums": drums
 }
 
+/**
+ * Gets a musical instrument by its name.
+ * @param {string} string Name of the musical instrument.
+ * @returns The musical instrument with the given name, 
+ * or guitar if the name matched no instrument.
+ */
 export function getInstrumentFromString(string = "guitar"){
     return instruments[string];
 }
