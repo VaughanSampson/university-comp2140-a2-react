@@ -1,15 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ToggleRowSelection from "./ToggleRowSelection.jsx";
-import EditSamplePageForm from "./EditSamplePageForm.jsx"
 import { playNote, setInstrumentWithName } from "../../../helper/music.js";
 import { instruments, notesList } from "../../../data/instruments.js";
 import { getSample } from "../../../api/songtrax-handler.js";
+import ToggleRowSelection from "./ToggleRowSelection.jsx";
+import EditSamplePageForm from "./EditSamplePageForm.jsx"
  
 const instrumentList = Object.keys(instruments);
 const emptySequence = [];
-for(let i = 0; i < 16; i++)
-    emptySequence.push(false);
+for(let i = 0; i < 16; i++) emptySequence.push(false);
 
 const EditSample = ({callback_create, callback_overwrite}) =>{
     const navigate = useNavigate();

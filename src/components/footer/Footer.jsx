@@ -1,8 +1,7 @@
-
-const Footer = () => {
-    return (
-        <footer className="page-footer"></footer>
-    );
-}
-
-export default Footer;
+/**
+ * Create footer component.
+ * @returns React DOM footer.
+ */
+export default function Footer() {
+    return <footer className="page-footer"></footer>;
+} 
