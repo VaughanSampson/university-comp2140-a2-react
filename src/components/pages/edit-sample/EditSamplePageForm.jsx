@@ -41,14 +41,14 @@ export default function EditSamplePageForm({ id, title, instrument, noteSequence
                         onOverwriteSave();
                         doSavingAnimation();
                     }}>
-                        Overwrite Save
+                        Overwrite
                     </button>
                 }
                 <button type="button" className="bright-button" onClick={() => {
                     onCreateSave();
                     doSavingAnimation();
                 }}>
-                    Save as New
+                    Create
                 </button>
 
                 {saving && <img className="icon spinner" src={spinner}></img>}

@@ -8,11 +8,11 @@
  */
 export default function ShareLocationToggle({ id, toggledOn, onToggle, title }) {
     return (
-        <div className="toggle-row-container">
+        <div className="toggle-row-container share-location-toggle">
             <div className="location-name-label">
                 <h4>{title}</h4>
             </div>
-            <div className="sequence-row-container">
+            <div className="sequence-row-container share-location-sequence">
                 <button
                     onClick={() => onToggle(id, true)}
                     className={`toggle${toggledOn ? "-selected" : ""}`} 

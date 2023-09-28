@@ -21,7 +21,7 @@ export default function Header() {
                     <span>Create & Share Location Based Music Samples!</span>
                 </div> :
                 <Link to="/" className="invisible-hyperlink">
-                    <img className="icon" src={backArrowIcon}></img>
+                    <img className="icon back-icon" src={backArrowIcon}></img>
                 </Link>
             }
         </header>
