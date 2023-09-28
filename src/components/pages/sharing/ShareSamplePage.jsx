@@ -1,9 +1,8 @@
 import { useEffect, useState} from "react";
 import SampleCard from "../samples/SampleCard";
-import ShareLocationTogglefrom from "./ShareLocationToggle";
-import { getSample } from "../../../api/songtrax.js";
+import ShareLocationTogglefrom from "./ShareLocationToggle"; 
 import { getLocations, getOneSampleToLocationBySampleID, deleteSampleToLocationBySampleID, 
-    updateSampleToLocationBySampleID } from "../../../api/songtrax.js" 
+    updateSampleToLocationBySampleID, getSample } from "../../../api/songtrax-handler.js" 
 
 
 const ShareSample = () =>{

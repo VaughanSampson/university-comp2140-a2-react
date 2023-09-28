@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 import CreateCard from "./CreateCard";
 import SampleCard from "./SampleCard";
-import { getAllSampleToLocations } from "../../../api/songtrax.js" 
+import { getAllSampleToLocations } from "../../../api/songtrax-handler.js" 
 
 const Samples = ({callback_delete, sampleList}) =>{
     const [sharedItems, setShareditems] = useState([]);

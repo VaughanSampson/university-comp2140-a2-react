@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import {useState, useEffect} from "react";
-import {postSample, putSample, deleteSample, getSamples} from "./api/songtrax.js";
+import {postSample, putSample, deleteSample, getSamples} from "./api/songtrax-handler.js";
 import Footer from "./components/footer/Footer.jsx"
 import Header from "./components/header/Header";
 import Samples from "./components/pages/samples/SamplesPage.jsx";

@@ -4,7 +4,7 @@ import ToggleRowSelection from "./ToggleRowSelection.jsx";
 import EditSamplePageForm from "./EditSamplePageForm.jsx"
 import { playNote, setInstrumentWithName } from "../../../helper/music.js";
 import { instruments, notesList } from "../../../data/instruments.js";
-import { getSample } from "../../../api/songtrax.js";
+import { getSample } from "../../../api/songtrax-handler.js";
  
 const instrumentList = Object.keys(instruments);
 const emptySequence = [];
