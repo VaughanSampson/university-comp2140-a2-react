@@ -319,8 +319,7 @@ button {
 /* This uses Media Queries */
 
 @media only screen and (max-width: 700px) {
-
-
+ 
   /* Make input extend to whole of card width */
   input {
     width: auto;

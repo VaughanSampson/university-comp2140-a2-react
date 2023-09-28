@@ -13,9 +13,12 @@ export default function SampleCard({ sample, editOption, shareOption, shared, on
     const date = new Date(sample.datetime);
     const year = date.getFullYear();
     const day = date.getDate();
-    const month = date.getMonth();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
+    const month = date.getMonth(); 
+    const dayTime  = date.toLocaleString("en-US", {
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+    });
 
     // Returns react component
     return (
@@ -23,7 +26,7 @@ export default function SampleCard({ sample, editOption, shareOption, shared, on
             <div className="card">
                 <div className="song-details">
                     <h3>{sample.name}</h3>
-                    <p>{`Updated last: ${hours}:${minutes} ${day}/${month}/${year}`}</p>
+                    <p>{`Updated last: ${dayTime} ${day}/${month}/${year}`}</p>
                 </div>
                 <div className="button-group-container">
                     {shareOption &&
